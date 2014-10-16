@@ -8,18 +8,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="9" >
+        android:weightSum="100" >
 
         <com.game.gameoflife.GameBoard
             android:id="@+id/gameBoard1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="7" />
+            android:layout_weight="73" />
+
+        <TextView
+            android:id="@+id/textView_isRunning"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="stopped..."
+            android:background="#ff0000"
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="10"
             android:weightSum="5"
             android:gravity="center_horizontal|center_vertical"
             android:orientation="horizontal" >
@@ -52,7 +62,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="10"
             android:gravity="center_horizontal|center_vertical"
             android:orientation="horizontal"
             android:weightSum="3" >

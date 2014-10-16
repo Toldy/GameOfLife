@@ -1,7 +1,6 @@
 package com.game.gameoflife;
 
 import android.graphics.Canvas;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -11,6 +10,10 @@ public class MainThread extends Thread {
 	private boolean running;
 	private SurfaceHolder surfaceHolder;
 	private GameBoard gameBoard;
+
+	private static final int MAX_FPS = 50;
+	private static final int MAX_FRAME_SKIPS = 5;
+	private static final int FRAME_PERIOD = 1000 / MAX_FPS;
 
 	public MainThread(SurfaceHolder surfaceHolder, GameBoard gameBoard) {
 		super();
@@ -28,18 +31,39 @@ public class MainThread extends Thread {
 
 	public void run() {
 		Canvas canvas;
+
+		long beginTime;
+		long timeDiff;
+		int sleepTime;
+		int framesSkipped;
+
 		Log.d(TAG, "Starting game loop");
 		while (running) {
-			//SystemClock.sleep(100);
 			canvas = null;
-			// try locking the canvas for exclusive pixel editing on the surface
 			try {
 				canvas = this.surfaceHolder.lockCanvas();
-				synchronized (surfaceHolder) {
+				synchronized (MainThread.class) {
+					beginTime = System.currentTimeMillis();
+					framesSkipped = 0;
+
 					this.gameBoard.update();
-					// update game state
-					// draws the canvas on the panel
 					this.gameBoard.render(canvas);
+
+					timeDiff = System.currentTimeMillis() - beginTime;
+					sleepTime = (int) (FRAME_PERIOD - timeDiff);
+
+					if (sleepTime > 0) {
+						try {
+							Thread.sleep(sleepTime);
+						} catch (InterruptedException e) {
+						}
+					}
+
+					while (sleepTime < 0 && framesSkipped < MAX_FRAME_SKIPS) {
+						this.gameBoard.update();
+						sleepTime += FRAME_PERIOD;
+						framesSkipped++;
+					}
 				}
 			} finally {
 				if (canvas != null) {

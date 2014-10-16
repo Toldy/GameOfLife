@@ -7,10 +7,10 @@ import com.game.gameoflife.MainGame;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 public class Board {
 
+	@SuppressWarnings("unused")
 	private static final String TAG = MainGame.class.getSimpleName();
 
 	private int nbCases;
@@ -21,7 +21,7 @@ public class Board {
 	private int borderSize;
 	private boolean[][] board;
 
-	private boolean isRunning = false;
+	private boolean isRunning;
 
 	private Paint paintPlainSquare = new Paint();
 	private Paint paintStrokeSquare = new Paint();
@@ -57,12 +57,8 @@ public class Board {
 		caseSize = (int) (sizeBoard / (nbCases + 2));
 		borderSize = (sizeBoard - (caseSize * nbCases)) / 2;
 		board = new boolean[nbCases][nbCases];
+		this.setRunning(false);
 		this.clear();
-
-		Log.d(TAG, "sizeBoard:" + String.valueOf(sizeBoard));
-		Log.d(TAG, "caseSize:" + String.valueOf(caseSize));
-		Log.d(TAG, "borderSize:" + String.valueOf(borderSize));
-		Log.d(TAG, "nbCases:" + String.valueOf(nbCases));
 	}
 
 	public void draw(Canvas canvas) {
@@ -99,13 +95,6 @@ public class Board {
 				board[(int) (eventY - borderSize) / caseSize][(int) (eventX - borderSize)
 						/ caseSize] = !board[(int) (eventY - borderSize)
 						/ caseSize][(int) (eventX - borderSize) / caseSize];
-				Log.d("CLICK",
-						"CASE["
-								+ String.valueOf((int) (eventX - borderSize)
-										/ caseSize)
-								+ ","
-								+ String.valueOf((int) (eventY - borderSize)
-										/ caseSize) + "]");
 			}
 
 	}
@@ -139,21 +128,6 @@ public class Board {
 			}
 		}
 		return nbCells;
-	}
-
-	@SuppressWarnings("unused")
-	private void printBoard() {
-		Log.d(TAG, "printboard()");
-		for (int y = 0; y < nbCases; y++) {
-			String s = "";
-			for (int x = 0; x < nbCases; x++) {
-				if (board[y][x])
-					s += "1 ";
-				else
-					s += "0 ";
-			}
-			Log.d(TAG + "_printboad", s);
-		}
 	}
 
 	private boolean[][] deepCopyBooleanArray(boolean[][] input) {

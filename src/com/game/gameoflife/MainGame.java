@@ -107,34 +107,27 @@ public class MainGame extends Activity {
 
 	@Override
 	protected void onResume() {
-
 		Log.d(TAG, "onResume...");
 		super.onResume();
 	}
 	
 	@Override
 	protected void onPause() {
-
 		g.getMainThread().setRunning(false);
 		Log.d(TAG, "onPause...");
 		super.onPause();
 	}
 	
-//	@Override
-//	public void onBackPressed() {
-		//g.hardExit();
-	    // your code.
-//	}
 	
 	@Override
 	protected void onDestroy() {
-		Log.d(TAG, "Destroying...");
+		Log.d(TAG, "onDestroy...");
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onStop() {
-		Log.d(TAG, "Stopping...");
+		Log.d(TAG, "onStop...");
 		super.onStop();
 	}
 }
